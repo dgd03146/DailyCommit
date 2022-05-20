@@ -9,11 +9,10 @@
 ---
 
 <aside>
-🎯 - Expending deep knowledge for JavaScript
+- Expending deep knowledge for JavaScript
 - Sharpening frontend skills for responsive design
 - Study data structures & algorithms
 - Experiecne of team project with backend developer
-
 </aside>
 
 ## ****📝Study goals****
