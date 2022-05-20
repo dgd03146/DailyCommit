@@ -1,5 +1,4 @@
 # ✨Today I learned
-
 ### Collection of notes and stuffs I learn from day to day to become a frontend developer👨🏻‍💻
 
 ## 💡2022’s Resolution
