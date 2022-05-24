@@ -1,0 +1,24 @@
+.form {
+  width: 600px;
+  padding: 20px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  display: block;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.form button {
+}
+
+.form input {
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  margin: 12px 0;
+}
