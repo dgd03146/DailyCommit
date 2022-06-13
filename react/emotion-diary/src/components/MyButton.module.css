@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Nuosu+SIL&family=Raleway:wght@300&family=Yeon+Sung&display=swap');
+
+.MyButton {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+
+  padding: 10px 20px 10px 20px;
+  font-size: 18px;
+
+  font-family: 'Nuosu SIL', serif;
+  white-space: nowrap;
+}
+
+.default {
+  background-color: #ececec;
+  color: black;
+}
+
+.positive {
+  background-color: #009563;
+  color: white;
+}
+
+.negative {
+  background-color: #ab0806;
+  color: white;
+}
+
+.newDiary {
+  width: 100%;
+}
