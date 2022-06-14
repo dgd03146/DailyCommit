@@ -4,9 +4,9 @@ import AuthContext from '../store/Auth-Context';
 import styles from './Diary.module.css';
 
 import { getStringDate } from '../util/date';
+import { emotionList } from '../util/emotion';
 import MyHeader from '../components/MyHeader';
 import MyButton from '../components/MyButton';
-import { emotionList } from '../util/emotion';
 
 const Diary = () => {
   const { id } = useParams();
@@ -35,7 +35,6 @@ const Diary = () => {
     const curEmotionData = emotionList.find(
       (it) => parseInt(it.emotion_id) === parseInt(diary.emotion)
     );
-    console.log(curEmotionData);
 
     return (
       <div className={styles.DiaryPage}>
@@ -51,6 +50,27 @@ const Diary = () => {
             />
           }
         />
+        <article>
+          <section>
+            <h4>오늘의 감정</h4>
+            <div
+              className={`${styles.emotion_img_wrapper} ${
+                styles[`emotion_img_wrapper_${diary.emotion}`]
+              }`}
+            >
+              <img src={curEmotionData.emotion_img} alt="" />
+              <div className={styles.emotion_descript}>
+                {curEmotionData.emotion_descript}
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4>오늘의 일기</h4>
+            <div className={styles.content_wrapper}>
+              <p>{diary.content}</p>
+            </div>
+          </section>
+        </article>
       </div>
     );
   }
