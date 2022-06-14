@@ -5,7 +5,7 @@ const MyButton = ({ text, type, onClick }) => {
 
   return (
     <button
-      className={`${styles.MyButton}  ${styles[`${btnType}`]}`}
+      className={`${styles.MyButton} ${styles[`${btnType}`]}`}
       onClick={onClick}
     >
       {text}

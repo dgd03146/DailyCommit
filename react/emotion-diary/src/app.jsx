@@ -6,6 +6,7 @@ import Diary from './pages/Diary';
 import New from './pages/New';
 import Edit from './pages/Edit';
 import AuthProvider from './store/AuthProvider';
+import { useEffect } from 'react';
 
 function App() {
   return (

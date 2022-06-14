@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './EmotionItem.module.css';
 const EmotionItem = ({
   emotion_id,
@@ -21,4 +22,4 @@ const EmotionItem = ({
   );
 };
 
-export default EmotionItem;
+export default React.memo(EmotionItem);

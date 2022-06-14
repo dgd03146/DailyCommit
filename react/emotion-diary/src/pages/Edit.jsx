@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DiaryEditor from '../components/DiaryEditor';
-import DiaryList from '../components/DiaryList';
+
 import AuthContext from '../store/Auth-Context';
 
 const Edit = () => {

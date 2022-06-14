@@ -4,9 +4,6 @@ import styles from './DiaryItem.module.css';
 import MyButton from './MyButton';
 
 const DiaryItem = ({ id, emotion, content, date }) => {
-  const env = process.env;
-  env.PUBLIC_URL = env.PUBLIC_URL || '';
-
   const navigate = useNavigate();
   const strDate = new Date(parseInt(date)).toLocaleDateString();
 
@@ -44,4 +41,4 @@ const DiaryItem = ({ id, emotion, content, date }) => {
   );
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);
