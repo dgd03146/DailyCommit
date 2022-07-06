@@ -12,12 +12,13 @@ const Lists = () => {
         {data.map((item, index) => {
           return (
             <li
+              className={`list_box ${item.completed ? 'done' : ''}`}
               onClick={() => {
                 navigate('/detail/' + index);
               }}
               key={index}
             >
-              <h3>{item}</h3>
+              <h3>{item.text}</h3>
             </li>
           );
         })}

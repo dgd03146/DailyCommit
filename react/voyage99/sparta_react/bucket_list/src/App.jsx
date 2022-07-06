@@ -6,6 +6,7 @@ import BucketList from './BucketList';
 import Detail from './Detail';
 import NotFound from './NotFound';
 import { createBucket } from './redux/modules/bucket';
+import Progress from './Progress';
 
 function App() {
   const inputRef = useRef();
@@ -20,6 +21,8 @@ function App() {
     <div className="App">
       <div className="bucketList">
         <h1 className="title">내 버킷리스트</h1>
+        <Progress />
+        <br />
         <hr />
         <Routes>
           <Route path="/" element={<BucketList />} />
@@ -29,6 +32,13 @@ function App() {
         <div className="input-wrap">
           <input className="input" type="text" ref={inputRef} />
           <button onClick={onAdd}>추가하기</button>
+          <button
+            onClick={() =>
+              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            }
+          >
+            위로 가기
+          </button>
         </div>
       </div>
     </div>

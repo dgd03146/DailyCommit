@@ -39,10 +39,14 @@ ul {
   height: 600px;
   overflow-y: auto;
 }
-li {
+.list_box {
   padding: 10px 20px;
   margin: 10px;
   background-color: rgb(216, 238, 245);
+}
+
+.done {
+  background-color: orange;
 }
 
 .input-wrap {
@@ -65,14 +69,10 @@ li {
 }
 
 button {
-  flex-basis: 20%;
-  width: 20%;
+  /* flex-basis: 20%;
+  width: 20%; */
   border: none;
   cursor: pointer;
   color: white;
   background-color: rgb(100, 175, 237);
-}
-
-.detail {
-  display: flex;
 }
