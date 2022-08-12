@@ -1,0 +1,55 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #feb800;
+}
+img {
+  width: 60%;
+}
+
+.start {
+  text-align: center;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+input {
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  width: 50%;
+}
+
+button {
+  font-size: large;
+  font-weight: 700;
+  background-color: orangered;
+  border: none;
+  border-radius: 24px;
+  width: 20%;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.name-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.name {
+  margin: 0 10px;
+  padding: 14px;
+  border-radius: 12px;
+  width: max-content;
+  background-color: blanchedalmond;
+}

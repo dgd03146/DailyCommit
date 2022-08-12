@@ -1,0 +1,176 @@
+{
+  "detailProject": {
+    "projectId": "1",
+    "category": "카테고리",
+    "summary": "프로젝트 요약",
+    "title": "프로젝트 제목",
+    "thumbnails": [
+      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+      "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGNoYW5nZXxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://img.freepik.com/premium-photo/astronaut-outer-open-space-planet-earth-stars-provide-background-erforming-space-planet-earth-sunrise-sunset-our-home-iss-elements-this-image-furnished-by-nasa_150455-16829.jpg?w=2000"
+    ],
+    "goal": "목표 금액",
+    "startDate": "시작 날짜",
+    "endDate": "종료 날짜",
+    "rewards": [
+      {
+        "rewardId": "1",
+        "rewardItem": "아이템",
+        "fundingPrice": "후원금액"
+      }
+    ],
+    "plan": "프로젝트 계획",
+    "creatorName": "창작자 이름",
+    "creatorBiography": "창작자 소개",
+    "totalFundingPrice": "현재까지의 후원 금액",
+    "fundingCount": "후원 횟수"
+  },
+  "projectsMain": [
+    {
+      "projectId": 1,
+      "category": "카테고리",
+      "summary": "프로젝트 요약",
+      "title": "프로젝트 제목",
+      "thumbnails": [
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg"
+      ],
+      "goal": "목표 금액",
+      "startDate": "시작 날짜",
+      "endDate": "종료 날짜",
+      "creatorName": "창작자 이름",
+      "totalFundingPrice": "현재까지의 후원 금액"
+    },
+    {
+      "projectId": 2,
+      "category": "이건 치킨",
+      "summary": "프로젝트 요약2",
+      "title": "프로젝트 제목2",
+      "thumbnails": [
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg",
+        "/images/test.jpg"
+      ],
+      "goal": "목표 금액",
+      "startDate": "시작 날짜",
+      "endDate": "종료 날짜",
+
+      "creatorName": "창작자 이름",
+      "totalFundingPrice": "현재까지의 후원 금액"
+    }
+  ],
+  "posts": [
+    {
+      "title": "자바스크립트짱",
+      "content": "자바스크립트는 너무나 어려워요",
+      "stack": "JavaSCript",
+      "date": "2022-07-27 02:52:57",
+      "views": 0,
+      "companyname": "쌈썽",
+      "id": 1
+    }
+  ],
+  "users": [
+    {
+      "id": "test",
+      "username": "1",
+      "pw": "1"
+    },
+    {
+      "id": "2",
+      "pw": "2"
+    }
+  ],
+  "ping": {
+    "answer": "pong"
+  },
+  "sleep_times": [
+    {
+      "id": 1,
+      "day": "월",
+      "sleep_time": "10:00"
+    },
+    {
+      "id": 2,
+      "day": "화",
+      "sleep_time": "10:00"
+    },
+    {
+      "id": 3,
+      "day": "수",
+      "sleep_time": "10:00"
+    },
+    {
+      "id": 4,
+      "day": "목",
+      "sleep_time": "10:00"
+    },
+    {
+      "id": 5
+    },
+    {
+      "day": "금",
+      "sleep_time": "10:00",
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    },
+    {
+      "id": 10
+    },
+    {
+      "id": 11
+    },
+    {
+      "day": "일",
+      "sleep_time": "10:00",
+      "id": 12
+    },
+    {
+      "day": "일",
+      "sleep_time": "10:00",
+      "id": 13
+    },
+    {
+      "id": 14
+    },
+    {
+      "day": "일",
+      "sleep_time": "10:00",
+      "id": 15
+    },
+    {
+      "day": "일",
+      "sleep_time": "10:00",
+      "id": 16
+    },
+    {
+      "day": "일",
+      "sleep_time": "10:00",
+      "id": 17
+    },
+    {
+      "day": "토",
+      "sleep_time": "2:00",
+      "id": 18
+    },
+    {
+      "day": "ㅎㅇㅎ",
+      "sleep_time": "ㅇㅎㅇ",
+      "id": 19
+    }
+  ]
+}

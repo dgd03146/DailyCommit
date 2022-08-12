@@ -1,0 +1,9 @@
+.textEditor {
+  display: flex;
+}
+
+.showText {
+  width: 10rem;
+  height: 10rem;
+  border: solid 1px black;
+}

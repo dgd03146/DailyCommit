@@ -1,0 +1,29 @@
+.MyHeader {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  align-items: center;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.MyHeader {
+  display: flex;
+}
+
+.text {
+  width: 50%;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.btnLeft {
+  width: 25%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btnRight {
+  width: 25%;
+  display: flex;
+  justify-content: flex-end;
+}
