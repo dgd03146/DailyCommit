@@ -1,5 +1,10 @@
 {
   "dependencies": {
     "@tanstack/react-query": "^4.1.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0"
   }
 }
