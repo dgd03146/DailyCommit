@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 import type { Staff } from '../../../../../shared/types';
 import { axiosInstance } from '../../../axiosInstance';
@@ -22,10 +22,17 @@ export function useStaff(): UseStaff {
   // for filtering staff by treatment
   const [filter, setFilter] = useState('all');
 
+  const selectFn = useCallback(
+    (unfilteredStaff) => filterByTreatment(unfilteredStaff, filter),
+    [filter],
+  );
+
   // TODO: get data from server via useQuery
   const fallback = [];
 
-  const { data: staff = fallback } = useQuery([queryKeys.staff], getStaff);
+  const { data: staff = fallback } = useQuery([queryKeys.staff], getStaff, {
+    select: filter !== 'all' ? selectFn : undefined,
+  });
 
   return { staff, filter, setFilter };
 }
