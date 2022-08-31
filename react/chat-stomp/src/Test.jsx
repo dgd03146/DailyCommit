@@ -54,11 +54,11 @@ const Test = () => {
   // *v5부턴 바이너리 메세지 전송도 지원된다고 하네요! (header에 'content-type': 'application/octet-stream')로 contentType을 써줍니다.)
 
   // const binaryData = generateBinaryData();
-  // client.publish({
-  //   destination: '/topic/special',
-  //   binaryBody: binaryData,
-  //   headers: { 'content-type': 'application/octet-stream' }
-  // });
+  client.publish({
+    destination: '/topic/special',
+    binaryBody: binaryData,
+    headers: { 'content-type': 'application/octet-stream' }
+  });
 
   //  구독한 대상에 대해 메세지를 받기 위해 subscribe 메서드를 사용합니다!
   const subscription = client.subscribe('/queue/test', callback);

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import {
@@ -16,13 +15,13 @@ import { AppointmentDateMap } from '../types';
 import { getAvailableAppointments } from '../utils';
 import { getMonthYearDetails, getNewMonthYear, MonthYear } from './monthYear';
 
-// commmon options for both useQuery and prefetchQuery
+// common options for both useQuery and prefetchQuery
 const commonOptions = {
   staleTime: 0,
   cacheTime: 300000, // 5 minutes
 };
 
-// for useQuery call
+// query function for useQuery call
 async function getAppointments(
   year: string,
   month: string,
@@ -72,13 +71,9 @@ export function useAppointments(): UseAppointments {
   //   appointments that the logged-in user has reserved (in white)
   const { user } = useUser();
 
-  const selectFn = useCallback(
-    (data) => {
-      getAvailableAppointments(data, user);
-    },
-    [user],
-  );
-
+  const selectFn = useCallback((data) => getAvailableAppointments(data, user), [
+    user,
+  ]);
   /** ****************** END 2: filter appointments  ******************** */
   /** ****************** START 3: useQuery  ***************************** */
   // useQuery call for appointments for the current monthYear
@@ -91,10 +86,10 @@ export function useAppointments(): UseAppointments {
     queryClient.prefetchQuery(
       [queryKeys.appointments, nextMonthYear.year, nextMonthYear.month],
       () => getAppointments(nextMonthYear.year, nextMonthYear.month),
-      ...commonOptions,
+      commonOptions,
     );
   }, [queryClient, monthYear]);
-  // TODO: update with useQuery!
+
   // Notes:
   //    1. appointments is an AppointmentDateMap (object with days of month
   //       as properties, and arrays of appointments for that day as values)
@@ -112,7 +107,7 @@ export function useAppointments(): UseAppointments {
       refetchOnMount: true,
       refetchOnReconnect: true,
       refetchOnWindowFocus: true,
-      refetchInterval: 60000, // every second; not recommended for production
+      refetchInterval: 60000, // 60 seconds
     },
   );
 
