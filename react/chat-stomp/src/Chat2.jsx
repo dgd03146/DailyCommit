@@ -66,10 +66,10 @@ const Chat2 = () => {
     };
 
     // 에러처리를 담당하는 함수
-    // client.onStompError = function (frame) {
-    //   console.log('Broker reported error: ' + frame.headers['message']);
-    //   console.log('Additional details: ' + frame.body);
-    // };
+    client.onStompError = function (frame) {
+      console.log('Broker reported error: ' + frame.headers['message']);
+      console.log('Additional details: ' + frame.body);
+    };
   };
 
   const wsDisconnect = () => {
