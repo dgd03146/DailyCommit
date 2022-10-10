@@ -1,8 +1,28 @@
+// Project Type
+enum ProjectStatus {
+  // 옵션이 두가지 정확하게 있고 식별자만 필요하다.
+  Active,
+  Finished
+}
+
+class Project {
+  constructor(
+    // 초기화 약식
+    public id: string,
+    public title: string,
+    public description: string,
+    public people: number,
+    public status: ProjectStatus
+  ) {}
+}
+
 // Project State Management
+type Listener = (items: Project[]) => void; // 즉 리스너 함수가 반환하는 값은 신경쓰지 않는다.
+
 class ProjectState {
   // 무언가 변경될대마다 함수 목록이 호출되어야한다.
-  private listeners: any[] = []; // 함수 참조 배열 새로운 프로젝트를 추가할 때 변화가 있을때마다, 모든 리스너를 소환하는 개념
-  private projects: any[] = [];
+  private listeners: Listener[] = []; // 함수 참조 배열 새로운 프로젝트를 추가할 때 변화가 있을때마다, 모든 리스너를 소환하는 개념. 리스너 배열에 여러개의 함수를 저장한다.
+  private projects: Project[] = [];
   private static instance: ProjectState;
 
   // 싱글톤 생성자. 프로젝트에 하나의 상태관리 객체만 갖게 하기 위해서
@@ -13,20 +33,21 @@ class ProjectState {
       return this.instance;
     }
     this.instance = new ProjectState();
-    return this.instance;
+    return this.instance; // single instance 반환
   }
 
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   addProject(title: string, description: string, numOfPeople: number) {
-    const newProject = {
-      id: Math.random().toString(),
-      title: title,
-      description: description,
-      people: numOfPeople
-    };
+    const newProject = new Project(
+      Math.random().toString(),
+      title,
+      description,
+      numOfPeople,
+      ProjectStatus.Active
+    );
     this.projects.push(newProject);
     // TODO: 잘 모르겠음
     for (const listenerFn of this.listeners) {
@@ -103,7 +124,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
-  assignedProjects: any[];
+  assignedProjects: Project[];
 
   constructor(private type: 'active' | 'finished') {
     this.templateElement = document.getElementById(
@@ -119,7 +140,7 @@ class ProjectList {
     this.element = importedNode.firstElementChild as HTMLElement;
     this.element.id = `${this.type}-projects`;
 
-    projectState.addListener((projects: any[]) => {
+    projectState.addListener((projects: Project[]) => {
       this.assignedProjects = projects;
       this.renderProjects();
     });
