@@ -1,14 +1,13 @@
 // Drag & Drop Interfaces
 interface Draggable {
-  // 드래그 앤 드롭을 실행할 때 , 드래그 대상은 리스너를 필요로 할 것
-  dragStartHandler(event: DragEvent): void; // 드래그 이벤트 구성만
+  dragStartHandler(event: DragEvent): void;
   dragEndHandler(event: DragEvent): void;
 }
 
 interface DragTarget {
-  dragOverHandler(event: DragEvent): void; // 드래그가 유효한 타겟임을 알려주기 위해
-  dropHandler(event: DragEvent): void; // 핸들러를 드롭해서 실제 일어나는 드롭에 대응
-  dragLeaveHandler(event: DragEvent): void; // 사용자에게 비주얼 피드백 ex) 배경색 바꾸기
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
 }
 
 // Project Type
@@ -63,21 +62,18 @@ class ProjectState extends State<Project> {
       ProjectStatus.Active
     );
     this.projects.push(newProject);
-    this.updateListenders();
+    this.updateListeners();
   }
 
-  // 프로젝트 상태 변경. 어떤 프로젝트를 옮길지, 어떤 것이 새로운 박스를 막고 있는지 알아야한다.
   moveProject(projectId: string, newStatus: ProjectStatus) {
     const project = this.projects.find((prj) => prj.id === projectId);
     if (project && project.status !== newStatus) {
-      // 프로젝트의 상태가 새상태와 다를때만 상태를 변화시키고 리스너를 업데이트한다.
       project.status = newStatus;
-      // 모든 리스너들이 알게 해야한다.
-      this.updateListenders();
+      this.updateListeners();
     }
   }
 
-  private updateListenders() {
+  private updateListeners() {
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
     }
@@ -190,9 +186,7 @@ class ProjectItem
 {
   private project: Project;
 
-  // getter
   get persons() {
-    // 올바른 단어, 텍스트를 얻기 위해 게터를 사용한다.
     if (this.project.people === 1) {
       return '1 person';
     } else {
@@ -209,13 +203,12 @@ class ProjectItem
   }
 
   @autobind
-  dragStartHandler(event: DragEvent): void {
-    // dataTransfer 프로퍼티에서 데이터를 드래그 이벤트에 붙일 수 있다. 모든 드래그 관련 이벤트가 dataTransfer 객체를 만들어 내지는 않음
-    event.dataTransfer!.setData('text/plain', this.project.id); // 데이터를 드래그이벤트에 붙인다.
-    event.dataTransfer!.effectAllowed = 'move'; // 커서 모양 조절
+  dragStartHandler(event: DragEvent) {
+    event.dataTransfer!.setData('text/plain', this.project.id);
+    event.dataTransfer!.effectAllowed = 'move';
   }
-  dragEndHandler(_: DragEvent): void {
-    // 매개변수를 비워서 타입스크립트에 사용하지 않고 있음을 알려준다.
+
+  dragEndHandler(_: DragEvent) {
     console.log('DragEnd');
   }
 
@@ -226,7 +219,7 @@ class ProjectItem
 
   renderContent() {
     this.element.querySelector('h2')!.textContent = this.project.title;
-    this.element.querySelector('h3')!.textContent = this.persons + ' assigned'; // getter 일반 프로퍼티처럼 접근
+    this.element.querySelector('h3')!.textContent = this.persons + ' assigned';
     this.element.querySelector('p')!.textContent = this.project.description;
   }
 }
@@ -246,34 +239,28 @@ class ProjectList
     this.renderContent();
   }
 
-  @autobind // 키워드가 주변 클래스에 묶일 수 있게
-  dragOverHandler(event: DragEvent): void {
+  @autobind
+  dragOverHandler(event: DragEvent) {
     if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
-      // 드래그 이벤트에 붙은게 그 포맷인지를 확인. 데이터 포맷이 다른 것을은 허용x
-
-      event.preventDefault(); // 자바스크립트에서 드래그 앤 드롭은 드롭이 실제로 허용되도록 작동, 드래그오버핸들러에서 해줄때만 사용자가 놓으면 드롭이벤트가 실행이 되게한다. 그렇지 않으면 사용자가 놓더라도 드롭 이벤트가 실행 안되게 한다.
-
-      // 박스의 모습이나 unorder list를 바꾼다
-      // ul 태그에 접근을 먼저해야함
+      event.preventDefault();
       const listEl = this.element.querySelector('ul')!;
-      listEl.classList.add('droppable'); // 배경색 변경
+      listEl.classList.add('droppable');
     }
   }
 
   @autobind
-  dropHandler(event: DragEvent): void {
-    console.log(event.dataTransfer!.getData('text/plain'));
+  dropHandler(event: DragEvent) {
+    const prjId = event.dataTransfer!.getData('text/plain');
     projectState.moveProject(
       prjId,
       this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished
     );
   }
 
-  @autobind // this키워드가 주변 구문을 가리키게
-  dragLeaveHandler(_: DragEvent): void {
-    // 드래그했다가 요소를 떠날 때 스타일링을 업데이트 해야한다.
+  @autobind
+  dragLeaveHandler(_: DragEvent) {
     const listEl = this.element.querySelector('ul')!;
-    listEl.classList.remove('droppable'); // 배경색 변경
+    listEl.classList.remove('droppable');
   }
 
   configure() {
