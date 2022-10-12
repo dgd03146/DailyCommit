@@ -159,6 +159,16 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
   private project: Project;
 
+  // getter
+  get persons() {
+    // 올바른 단어, 텍스트를 얻기 위해 게터를 사용한다.
+    if (this.project.people === 1) {
+      return '1 person';
+    } else {
+      return `${this.project.people} persons`;
+    }
+  }
+
   constructor(hostId: string, project: Project) {
     super('single-project', hostId, false, project.id);
     this.project = project;
@@ -171,8 +181,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
 
   renderContent() {
     this.element.querySelector('h2')!.textContent = this.project.title;
-    this.element.querySelector('h3')!.textContent =
-      this.project.people.toString();
+    this.element.querySelector('h3')!.textContent = this.persons + ' assigned'; // getter 일반 프로퍼티처럼 접근
     this.element.querySelector('p')!.textContent = this.project.description;
   }
 }
