@@ -1,3 +1,16 @@
+// Drag & Drop Interfaces
+interface Draggable {
+  // 드래그 앤 드롭을 실행할 때 , 드래그 대상은 리스너를 필요로 할 것
+  dragStartHandler(event: DragEvent): void; // 드래그 이벤트 구성만
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void; // 드래그가 유효한 타겟임을 알려주기 위해
+  dropHandler(event: DragEvent): void; // 핸들러를 드롭해서 실제 일어나는 드롭에 대응
+  dragLeaveHandler(event: DragEvent): void; // 사용자에게 비주얼 피드백 ex) 배경색 바꾸기
+}
+
 // Project Type
 enum ProjectStatus {
   Active,
@@ -156,7 +169,10 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 }
 
 // ProjectItem Class
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem
+  extends Component<HTMLUListElement, HTMLLIElement>
+  implements Draggable
+{
   private project: Project;
 
   // getter
@@ -177,7 +193,19 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.renderContent();
   }
 
-  configure() {}
+  @autobind
+  dragStartHandler(event: DragEvent): void {
+    console.log(event);
+  }
+  dragEndHandler(_: DragEvent): void {
+    // 매개변수를 비워서 타입스크립트에 사용하지 않고 있음을 알려준다.
+    console.log('DragEnd');
+  }
+
+  configure() {
+    this.element.addEventListener('dragstart', this.dragStartHandler);
+    this.element.addEventListener('dragend', this.dragEndHandler);
+  }
 
   renderContent() {
     this.element.querySelector('h2')!.textContent = this.project.title;
