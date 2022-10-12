@@ -215,7 +215,10 @@ class ProjectItem
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTarget
+{
   assignedProjects: Project[];
 
   constructor(private type: 'active' | 'finished') {
@@ -226,7 +229,27 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     this.renderContent();
   }
 
+  @autobind // 키워드가 주변 클래스에 묶일 수 있게
+  dragOverHandler(_: DragEvent): void {
+    // 박스의 모습이나 unorder list를 바꾼다
+    // ul 태그에 접근을 먼저해야함
+    const listEl = this.element.querySelector('ul')!;
+    listEl.classList.add('droppable'); // 배경색 변경
+  }
+  dropHandler(_: DragEvent): void {}
+
+  @autobind // this키워드가 주변 구문을 가리키게
+  dragLeaveHandler(_: DragEvent): void {
+    // 드래그했다가 요소를 떠날 때 스타일링을 업데이트 해야한다.
+    const listEl = this.element.querySelector('ul')!;
+    listEl.classList.remove('droppable'); // 배경색 변경
+  }
+
   configure() {
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler);
+    this.element.addEventListener('drop', this.dropHandler);
+
     projectState.addListener((projects: Project[]) => {
       const relevantProjects = projects.filter((prj) => {
         if (this.type === 'active') {
