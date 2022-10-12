@@ -63,6 +63,21 @@ class ProjectState extends State<Project> {
       ProjectStatus.Active
     );
     this.projects.push(newProject);
+    this.updateListenders();
+  }
+
+  // 프로젝트 상태 변경. 어떤 프로젝트를 옮길지, 어떤 것이 새로운 박스를 막고 있는지 알아야한다.
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find((prj) => prj.id === projectId);
+    if (project && project.status !== newStatus) {
+      // 프로젝트의 상태가 새상태와 다를때만 상태를 변화시키고 리스너를 업데이트한다.
+      project.status = newStatus;
+      // 모든 리스너들이 알게 해야한다.
+      this.updateListenders();
+    }
+  }
+
+  private updateListenders() {
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
     }
@@ -195,7 +210,9 @@ class ProjectItem
 
   @autobind
   dragStartHandler(event: DragEvent): void {
-    console.log(event);
+    // dataTransfer 프로퍼티에서 데이터를 드래그 이벤트에 붙일 수 있다. 모든 드래그 관련 이벤트가 dataTransfer 객체를 만들어 내지는 않음
+    event.dataTransfer!.setData('text/plain', this.project.id); // 데이터를 드래그이벤트에 붙인다.
+    event.dataTransfer!.effectAllowed = 'move'; // 커서 모양 조절
   }
   dragEndHandler(_: DragEvent): void {
     // 매개변수를 비워서 타입스크립트에 사용하지 않고 있음을 알려준다.
@@ -230,13 +247,27 @@ class ProjectList
   }
 
   @autobind // 키워드가 주변 클래스에 묶일 수 있게
-  dragOverHandler(_: DragEvent): void {
-    // 박스의 모습이나 unorder list를 바꾼다
-    // ul 태그에 접근을 먼저해야함
-    const listEl = this.element.querySelector('ul')!;
-    listEl.classList.add('droppable'); // 배경색 변경
+  dragOverHandler(event: DragEvent): void {
+    if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+      // 드래그 이벤트에 붙은게 그 포맷인지를 확인. 데이터 포맷이 다른 것을은 허용x
+
+      event.preventDefault(); // 자바스크립트에서 드래그 앤 드롭은 드롭이 실제로 허용되도록 작동, 드래그오버핸들러에서 해줄때만 사용자가 놓으면 드롭이벤트가 실행이 되게한다. 그렇지 않으면 사용자가 놓더라도 드롭 이벤트가 실행 안되게 한다.
+
+      // 박스의 모습이나 unorder list를 바꾼다
+      // ul 태그에 접근을 먼저해야함
+      const listEl = this.element.querySelector('ul')!;
+      listEl.classList.add('droppable'); // 배경색 변경
+    }
   }
-  dropHandler(_: DragEvent): void {}
+
+  @autobind
+  dropHandler(event: DragEvent): void {
+    console.log(event.dataTransfer!.getData('text/plain'));
+    projectState.moveProject(
+      prjId,
+      this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished
+    );
+  }
 
   @autobind // this키워드가 주변 구문을 가리키게
   dragLeaveHandler(_: DragEvent): void {
