@@ -1,6 +1,10 @@
 // Component Base Class
 
-export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
+// 파일당 하나의 default export만 사용 가능
+export default abstract class Component<
+  T extends HTMLElement,
+  U extends HTMLElement
+> {
   templateElement: HTMLTemplateElement;
   hostElement: T;
   element: U;
