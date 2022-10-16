@@ -1,10 +1,7 @@
-/// <reference path="components/project-input.ts" />
-/// <reference path="components/project-list.ts" />
+import { ProjectInput } from './components/project-input.js';
+import { ProjectList } from './components/project-list.js';
+// .js를 꼭 붙여야한다.
 
-// 해당 파일이 필요한 것들을 필요할 때 이용할 수 있도록 해야한다.
-
-namespace App {
-  new ProjectInput();
-  new ProjectList('active');
-  new ProjectList('finished');
-}
+new ProjectInput();
+new ProjectList('active');
+new ProjectList('finished');
