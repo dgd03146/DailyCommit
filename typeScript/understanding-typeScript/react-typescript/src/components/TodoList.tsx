@@ -1,14 +1,19 @@
-import React from 'react';
+import './TodoList.css';
 
-export interface TodoListProps {
+interface TodoListProps {
   items: { id: string; text: string }[];
+  onDeleteTodo: (id: string) => void;
 }
 
-const TodoList = ({ items }: TodoListProps) => {
+const TodoList = (props: TodoListProps) => {
+  const { items, onDeleteTodo } = props;
   return (
     <ul>
       {items.map((todo) => (
-        <li key={todo.id}>{todo.text}</li>
+        <li key={todo.id}>
+          <span>{todo.text}</span>
+          <button onClick={() => onDeleteTodo(todo.id)}>DELETE</button>
+        </li>
       ))}
     </ul>
   );

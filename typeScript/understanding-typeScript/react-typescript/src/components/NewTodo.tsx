@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import './NewTodo.css';
 
 // 평상시에 인터페이스를 만들겠지만 type을 사용하는것도 문제가 없다.
 type NewTodoProps = {
@@ -17,7 +18,7 @@ const NewTodo = ({ onAddTodo }: NewTodoProps) => {
 
   return (
     <form onSubmit={todoSubmitHandler}>
-      <div>
+      <div className="form-control">
         <label htmlFor="todo-text">Todo Text</label>
         <input type="text" id="todo-text" ref={textInputRef} />
       </div>
