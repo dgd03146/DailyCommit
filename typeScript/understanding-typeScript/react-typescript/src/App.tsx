@@ -1,10 +1,11 @@
 import TodoList from './components/TodoList';
+import NewTodo from './components/NewTodo';
 
 function App() {
   const todos = [{ id: 't1', text: 'Finish the course' }];
   return (
     <div className="App">
-      {/* A component that adds todo */}
+      <NewTodo />
       <TodoList items={todos} />
     </div>
   );
