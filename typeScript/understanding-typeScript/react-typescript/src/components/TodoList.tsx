@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface TodoListProps {
+export interface TodoListProps {
   items: { id: string; text: string }[];
 }
 
