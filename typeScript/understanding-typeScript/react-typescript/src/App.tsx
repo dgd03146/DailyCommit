@@ -1,11 +1,19 @@
+import React, { useState } from 'react';
+import { Todo } from './todo.model';
 import TodoList from './components/TodoList';
 import NewTodo from './components/NewTodo';
 
 function App() {
-  const todos = [{ id: 't1', text: 'Finish the course' }];
+  const [todos, setTodos] = useState<Todo[]>([]);
+  // useState는 일반적인 함수 이기 때문에 state의 구조를 전달할 수 있다.
+  // 처음 초기화할대 비어 있는 배열이 있는경우 나중에 어떤 데이터가 들어갈지 구조를 정해줄때 중요하다.
 
   const todoAddHandler = (text: string) => {
-    console.log(text);
+    // 가장 최신 상태 snapshot을 보장한다.
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      { id: Math.random().toString(), text }
+    ]);
   };
   return (
     <div className="App">
