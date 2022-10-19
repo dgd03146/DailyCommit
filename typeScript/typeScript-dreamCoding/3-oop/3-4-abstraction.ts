@@ -5,6 +5,7 @@ type CoffeeCup = {
   hasMilk: boolean;
 };
 
+// 이 interface를 이용하면 makeCoffee를 사용할 수 있다
 interface CoffeeMaker {
   makeCoffee(shots: number): CoffeeCup;
 }
@@ -27,6 +28,17 @@ class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
     return new CoffeeMachine(coffeeBeans);
   }
 
+  // 사용자가 커피를 호출할 때 이 함수만 호출하게 하고 싶다
+  makeCoffee(shots: number): CoffeeCup {
+    this.grindBeans(shots);
+    this.preheat();
+    return this.extract(shots);
+  }
+
+  clean() {
+    console.log('cleaning the machine...');
+  }
+
   fillCoffeeBeans(beans: number) {
     // 함수를 통해서만 커피를 채우게 한다.
     if (beans < 0) {
@@ -44,27 +56,19 @@ class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
     this.coffeeBeans -= shots * CoffeeMachine.BEANS_GRAMM_PER_SHOT;
   }
 
+  // 외부에서 호출 못하게 private
   private preheat(): void {
     // 커피 기계를 따뜻하게 하는 함수
     console.log('heating up...');
   }
 
+  // 외부에서 호출 못하게 private
   private extract(shots: number): CoffeeCup {
     console.log(`Pulling ${shots} shots...`);
     return {
       shots,
       hasMilk: false
     };
-  }
-
-  makeCoffee(shots: number): CoffeeCup {
-    this.grindBeans(shots);
-    this.preheat();
-    return this.extract(shots);
-  }
-
-  clean() {
-    console.log('cleaning the machine...');
   }
 }
 
@@ -84,6 +88,11 @@ class ProBarista {
 }
 
 const maker: CoffeeMachine = CoffeeMachine.makeMachine(45);
+
+const maker2: CoffeeMaker = CoffeeMachine.makeMachine(32);
+maker2.fillCoffeeBeans(32); // error 발생
+maker2.makeCoffee(2);
+
 const amateur = new AmateurUser(maker); // 동일한 maker 오브젝트를 전달
 const pro = new ProBarista(maker); // interface에 규약된 함수만 사용 가능하기에 쓸 수 있는 범위가 다르다.
 amateur.makeCoffee();
