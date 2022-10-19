@@ -10,17 +10,11 @@ interface CoffeeMaker {
   makeCoffee(shots: number): CoffeeCup;
 }
 
-interface CommercialCoffeeMaker {
-  makeCoffee(shots: number): CoffeeCup;
-  fillCoffeeBeans(beans: number): void;
-  clean(): void;
-}
-
-class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
+class CoffeeMachine implements CoffeeMaker {
   private static BEANS_GRAMM_PER_SHOT: number = 7; // class level. 외부에서 접근할 필요가 없다. 보여주고 싶지 않다.
   private coffeeBeans: number = 0; // instance (object) level
 
-  private constructor(coffeeBeans: number) {
+  constructor(coffeeBeans: number) {
     this.coffeeBeans = coffeeBeans;
   }
 
@@ -72,34 +66,25 @@ class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
   }
 }
 
-class AmateurUser {
-  constructor(private machine: CoffeeMaker) {}
-  makeCoffee() {
-    const coffee = this.machine.makeCoffee(2); // makeCoffee만 가능 coffeeMaker interface만 생성자 인자로 받기 때문에
-    console.log(coffee);
+class CaffeLatteMachine extends CoffeeMachine {
+  constructor(beans: number, public readonly serialNumber: string) {
+    super(beans);
   }
-}
-class ProBarista {
-  constructor(private machine: CommercialCoffeeMaker) {}
-  makeCoffee() {
-    const coffee = this.machine.makeCoffee(2); // coffee를 만들고 추가하고 청소까지 가능
-    console.log(coffee);
-    this.machine.fillCoffeeBeans(45);
-    this.machine.clean();
+
+  private steamMilk(): void {
+    console.log('Steaming some milk... 🥛');
+  }
+  makeCoffee(shots: number): CoffeeCup {
+    const coffee = super.makeCoffee(shots);
+    this.steamMilk();
+    return {
+      ...coffee,
+      hasMilk: true
+    };
   }
 }
 
-const maker: CoffeeMachine = CoffeeMachine.makeMachine(45);
-const amateur = new AmateurUser(maker); // 동일한 maker 오브젝트를 전달
-const pro = new ProBarista(maker); // interface에 규약된 함수만 사용 가능하기에 쓸 수 있는 범위가 다르다.
-amateur.makeCoffee();
-// grinding beans for 2
-// heating up...
-// Pulling 2 shots...
-// { shots: 2, hasMilk: false }
-pro.makeCoffee();
-// grinding beans for 2
-// heating up...
-// Pulling 2 shots...
-// { shots: 2, hasMilk: false }
-// cleaning the machine...
+const machine = new CoffeeMachine(23);
+const latteMachine = new CaffeLatteMachine(23, 'serial33');
+const coffee = latteMachine.makeCoffee(1);
+console.log(latteMachine.serialNumber); // latteMachine에서만 serialNumber에 접근 가능
