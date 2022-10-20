@@ -12,22 +12,24 @@ interface CoffeeMaker {
 }
 
 class CoffeeMachine implements CoffeeMaker {
-  private static BEANS_GRAMM_PER_SHOT: number = 7; // class level. 외부에서 접근할 필요가 없다. 보여주고 싶지 않다.
+  private static BEANS_GRAMM_PER_SHOT: number = 3; // class level. 외부에서 접근할 필요가 없다. 보여주고 싶지 않다.
   private coffeeBeans: number = 0; // instance (object) level
 
-  constructor(coffeeBeans: number) {
+  constructor(
+    coffeeBeans: number,
+    private milk: MilkFrother,
+    private sugar: SugarProvider
+  ) {
     this.coffeeBeans = coffeeBeans;
-  }
-
-  static makeMachine(coffeeBeans: number): CoffeeMachine {
-    return new CoffeeMachine(coffeeBeans);
   }
 
   // 사용자가 커피를 호출할 때 이 함수만 호출하게 하고 싶다
   makeCoffee(shots: number): CoffeeCup {
     this.grindBeans(shots);
     this.preheat();
-    return this.extract(shots);
+    const coffee = this.extract(shots);
+    const sugarAdded = this.sugar.addSugar(coffee);
+    return this.milk.makeMilk(sugarAdded);
   }
 
   clean() {
@@ -67,8 +69,16 @@ class CoffeeMachine implements CoffeeMaker {
   }
 }
 
+interface MilkFrother {
+  makeMilk(cup: CoffeeCup): CoffeeCup;
+}
+
+interface SugarProvider {
+  addSugar(cup: CoffeeCup): CoffeeCup;
+}
+
 // 싸구려 우유 거품기
-class CheapMilkSteamer {
+class CheapMilkSteamer implements MilkFrother {
   private steamMilk(): void {
     // 내부에서만 동작
     console.log('Steaming some milk... 🥛');
@@ -82,8 +92,44 @@ class CheapMilkSteamer {
   }
 }
 
-// 설탕 제조기
-class CandySugarMixer {
+// 고급 우유 거품기
+class FancyMilkSteamer implements MilkFrother {
+  private steamMilk(): void {
+    // 내부에서만 동작
+    console.log('Fancy Steaming some milk... 🥛');
+  }
+  makeMilk(cup: CoffeeCup): CoffeeCup {
+    this.steamMilk();
+    return {
+      ...cup,
+      hasMilk: true
+    };
+  }
+}
+
+// 차가운 우유 거품기
+class ColdMilkSteamer implements MilkFrother {
+  private steamMilk(): void {
+    // 내부에서만 동작
+    console.log('Cold Steaming some milk... 🥛');
+  }
+  makeMilk(cup: CoffeeCup): CoffeeCup {
+    this.steamMilk();
+    return {
+      ...cup,
+      hasMilk: true
+    };
+  }
+}
+
+class NoMilk implements MilkFrother {
+  makeMilk(cup: CoffeeCup): CoffeeCup {
+    return cup; // 우유를 만들지 않는다.
+  }
+}
+
+// 사탕 설탕 제조기
+class CandySugarMixer implements SugarProvider {
   private getSugar() {
     console.log('Getting some sugar from candy');
     return true;
@@ -98,54 +144,45 @@ class CandySugarMixer {
   }
 }
 
-class CaffeLatteMachine extends CoffeeMachine {
-  constructor(
-    beans: number,
-    public readonly serialNumber: string,
-    private milkFother: CheapMilkSteamer
-  ) {
-    super(beans);
+// 설탕 제조기
+class SugarMixer implements SugarProvider {
+  private getSugar() {
+    console.log('Getting some sugar from jar!!!');
+    return true;
   }
+  addSugar(cup: CoffeeCup): CoffeeCup {
+    const sugar = this.getSugar();
 
-  makeCoffee(shots: number): CoffeeCup {
-    const coffee = super.makeCoffee(shots);
-    return this.milkFother.makeMilk(coffee);
-  }
-}
-
-class SweetCoffeeMaker extends CoffeeMachine {
-  constructor(private beans: number, private sugar: CandySugarMixer) {
-    super(beans);
-  } // CoffeeMachine을 상속했기 때문에 beans 정보도 받아와야한다.
-
-  makeCoffee(shots: number): CoffeeCup {
-    const coffee = super.makeCoffee(shots);
-    return this.sugar.addSugar(coffee);
+    return {
+      ...cup,
+      hasSugar: sugar
+    };
   }
 }
 
-class SweetCaffeLatteMachine extends CoffeeMachine {
-  // 필요한 기능들을 가져와서 외부에서 주입 받음으로써 composition을 이용해서 필요한 기능을 재사용 할 수 있다.
-  constructor(
-    private beans: number,
-    private milk: CheapMilkSteamer,
-    private sugar: CandySugarMixer
-  ) {
-    super(beans);
-  }
-  makeCoffee(shots: number): CoffeeCup {
-    const coffee = super.makeCoffee(shots);
-    const sugarAdded = this.sugar.addSugar(coffee);
-    return this.milk.makeMilk(sugarAdded);
+class NoSugar implements SugarProvider {
+  addSugar(cup: CoffeeCup): CoffeeCup {
+    return cup;
   }
 }
 
+// Milk
 const cheapMilkMaker = new CheapMilkSteamer();
+const fancyMilkMaker = new FancyMilkSteamer();
+const coldMilkMaker = new ColdMilkSteamer();
+const noMilk = new NoMilk();
+
+// Sugar
 const candySugar = new CandySugarMixer();
-const sweetMachine = new SweetCoffeeMaker(12, candySugar);
-const latteMachine = new CaffeLatteMachine(12, 'SS', cheapMilkMaker);
-const sweetLatteMachine = new SweetCaffeLatteMachine(
-  12,
-  cheapMilkMaker,
-  candySugar
-);
+const sugar = new SugarMixer();
+const noSugar = new NoSugar();
+
+// interface로 사용하고 나서 클래스를 원하는 용도로 바꿔서 사용할 수 있다.
+const sweetCandyMachine = new CoffeeMachine(12, noMilk, candySugar); // 우유가 없고 candySugar를 넣어주는 머신
+const sweetMachine = new CoffeeMachine(12, noMilk, sugar);
+
+const latteMachine = new CoffeeMachine(12, cheapMilkMaker, noSugar);
+const coldLatteMachine = new CoffeeMachine(12, coldMilkMaker, noSugar);
+const sweetLatteMachine = new CoffeeMachine(12, cheapMilkMaker, candySugar);
+
+console.log(sweetLatteMachine.makeCoffee(3));
