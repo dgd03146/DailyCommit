@@ -40,6 +40,7 @@ class StackImpl implements Stack {
 }
 
 const stack = new StackImpl(10);
+
 stack.push('Ellie 1');
 stack.push('Bob 2');
 stack.push('Steve 3');
