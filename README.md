@@ -21,6 +21,8 @@
 - [ ]  React
 - [ ]  JavaScript
 - [ ]  TypeScript
+- [ ]  Next.js
+
 
 ### ⚙️ Backend
 
