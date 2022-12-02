@@ -1,0 +1,26 @@
+{
+  "name": "next-shop-backend",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "dependencies": {
+    "knex": "0.21.18",
+    "sqlite3": "5.1.2",
+    "strapi": "3.6.10",
+    "strapi-admin": "^3.6.11",
+    "strapi-connector-bookshelf": "3.6.10",
+    "strapi-plugin-content-manager": "3.6.10",
+    "strapi-plugin-content-type-builder": "3.6.10",
+    "strapi-plugin-email": "3.6.10",
+    "strapi-plugin-i18n": "3.6.10",
+    "strapi-plugin-upload": "^3.6.11",
+    "strapi-plugin-users-permissions": "3.6.10",
+    "strapi-utils": "3.6.10"
+  }
+}
