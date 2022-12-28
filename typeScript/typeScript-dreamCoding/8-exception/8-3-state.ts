@@ -1,7 +1,8 @@
 {
+  const response = { status: '401' }; // promise로 받은 response
+
   type NetworkErrorState = {
     result: 'fail';
-
     reason: 'offline' | 'down' | 'timeout';
   };
 
@@ -15,10 +16,21 @@
 
   class NetworkClient {
     tryConnect(): ResultState {
-      return {
-        result: 'fail',
-        reason: 'down'
-      };
+      if (response.status === '200') {
+        return {
+          result: 'success'
+        };
+      } else if (response.status === '400') {
+        return {
+          result: 'fail',
+          reason: 'down'
+        };
+      } else {
+        return {
+          result: 'fail',
+          reason: 'offline'
+        };
+      }
     }
   }
 
