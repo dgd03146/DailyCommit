@@ -7,6 +7,12 @@ type Props = {
   };
 };
 
+export function generateMetadata({ params }: Props) {
+  return {
+    title: `제품의 이름: ${params.slug}`
+  };
+}
+
 const PantsPage = ({ params }: Props) => {
   if (params.slug === 'nothing') {
     notFound();
