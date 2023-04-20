@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { getProduct, getProducts } from '@/service/products';
 import { Metadata } from 'next';
 
+export const revalidate = 3;
+
 type Props = {
   params: {
     slug: string;
