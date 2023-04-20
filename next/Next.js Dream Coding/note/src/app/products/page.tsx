@@ -1,18 +1,12 @@
+import MeowArticle from '@/components/MeowArticle';
 import { getProducts } from '@/service/products';
 import Link from 'next/link';
-import React from 'react';
 
 // export const revalidate = 3;
 
 const ProductsPage = async () => {
   // 서버 파일(데이터베이스)에 있는 제품의 리스트를 읽어와서 그걸 보여줌
   const products = await getProducts();
-  const res = await fetch('https://meowfacts.herokuapp.com', {
-    next: { revalidate: 3 }, // 3초마다 ISR로 만들어줌,
-    cache: 'default'
-  });
-  const data = await res.json();
-  const factText = data.data[0];
 
   return (
     <>
@@ -24,7 +18,7 @@ const ProductsPage = async () => {
           </li>
         ))}
       </ul>
-      <article>{factText}</article>
+      <MeowArticle />
     </>
   );
 };

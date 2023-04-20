@@ -1,4 +1,4 @@
-import Counter from '@/components/couter';
+import Counter from '@/components/Counter';
 import Image from 'next/image';
 import os from 'os'; // 노드 APIs
 
