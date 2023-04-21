@@ -10,6 +10,20 @@ const nextConfig = {
         hostname: 'images.unsplash.com' // 사용한 도메인 URL 등록
       }
     ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/products/deleted_forever',
+        destination: '/products',
+        permanent: true
+      },
+      {
+        source: '/products/deleted_temp',
+        destination: '/products',
+        permanent: false
+      }
+    ];
   }
 };
 
